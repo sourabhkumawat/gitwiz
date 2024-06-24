@@ -1,0 +1,25 @@
+{
+  "name": "gitwiz",
+  "version": "1.0.0",
+  "description": "A CLI wrapper for Git commands using simple-git",
+  "main": "bin/git-cli.js",
+  "bin": {
+    "gitwiz": "./bin/git-cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node postinstall.js",
+    "dev": "nodemon bin/git-cli.js"
+  },
+  "author": "Sourabh kumawat",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "inquirer": "^9.2.23",
+    "simple-git": "^3.0.0",
+    "yargs": "^17.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
