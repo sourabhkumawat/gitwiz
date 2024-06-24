@@ -113,7 +113,7 @@ const main = async () => {
         console.error(error.message);
       }
     })
-    .command('commit -m <message>', 'Commit changes', (yargs) => {
+    .command('commit <message>', 'Commit changes', (yargs) => {
       yargs
         .option('message', {
           alias: 'm',
@@ -124,14 +124,18 @@ const main = async () => {
     }, async (argv) => {
       try {
         const features = readFeatures();
-        const { feature } = await inquirer.prompt([
-          {
-            type: 'list',
-            name: 'feature',
-            message: 'Select a feature for the commit:',
-            choices: features,
-          },
-        ]);
+        if (features.length) {
+          const { feature } = await inquirer.prompt([
+            {
+              type: 'list',
+              name: 'feature',
+              message: 'Select a feature for the commit:',
+              choices: features,
+            },
+          ]);
+        }
+
+        console.log(argv)
 
         const result = await git.commit(argv.message);
         console.log(result);
@@ -139,12 +143,15 @@ const main = async () => {
         console.log('1 file changed, 1 insertion(+)');
 
         // Update commit log
-        const commitLog = readCommitLog();
-        if (!commitLog[feature]) {
-          commitLog[feature] = [];
+        if (features.length) {
+          const commitLog = readCommitLog();
+          if (!commitLog[feature]) {
+            commitLog[feature] = [];
+          }
+          commitLog[feature].push(argv.message);
+          writeCommitLog(commitLog);
         }
-        commitLog[feature].push(argv.message);
-        writeCommitLog(commitLog);
+
       } catch (error) {
         console.error(error.message);
       }
