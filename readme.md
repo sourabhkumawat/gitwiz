@@ -73,7 +73,7 @@ gitwiz pull
 
 ## Author
 
-Your Name
+Sourabh kumawat
 
 ## License
 
