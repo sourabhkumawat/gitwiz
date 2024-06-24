@@ -301,9 +301,7 @@ const main = async () => {
           }
         }
 
-        await git.push('origin', headBranch);
-
-        console.log(`feature release branch created successfully: ${headBranch}`);
+        console.log(`feature release branch created successfully: ${headBranch} please push to repo`);
       } catch (error) {
         console.error(error.message);
       }
