@@ -1,10 +1,10 @@
 {
-  "name": "gitwiz",
+  "name": "@authnlabs/gitwiz",
   "version": "1.0.0",
   "description": "A CLI wrapper for Git commands using simple-git",
   "main": "bin/git-cli.js",
   "bin": {
-    "gitwiz": "./bin/git-cli.js"
+    "gitwiz": "bin/git-cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
