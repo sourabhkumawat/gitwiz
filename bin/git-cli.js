@@ -302,7 +302,7 @@ const main = async () => {
 
         for (const commit of commitLog[feature]) {
           try {
-            await git.cherryPick(commit);
+            await git.raw(['cherry-pick', commit]);
           } catch (error) {
             console.log(`Conflict detected while cherry-picking commit: ${commit}`);
             await resolveCherryPickConflicts(git, commit);
