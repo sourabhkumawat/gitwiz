@@ -158,10 +158,6 @@ const main = async () => {
         console.log('To ' + argv.origin);
         console.log(' * [new branch] ' + argv.branch + ' -> ' + argv.branch);
         console.log('Push successful');
-
-        // Copy commit log to push log with selected feature
-        // const commitLog = readCommitLog();
-        const commitLogPathPush = path.join(tempDir, 'commit-log-push.json');
         if (features.length) {
           let commitLog = readCommitLog();
           if (!commitLog[feature]) {
@@ -171,7 +167,6 @@ const main = async () => {
           }
           writeCommitLog(commitLog);
         }
-        fs.writeFileSync(commitLogPathPush, JSON.stringify(pushLog, null, 2), 'utf8');
       } catch (error) {
         console.error(error.message);
       }
