@@ -123,35 +123,10 @@ const main = async () => {
         });
     }, async (argv) => {
       try {
-        const features = readFeatures();
-        if (features.length) {
-          const { feature } = await inquirer.prompt([
-            {
-              type: 'list',
-              name: 'feature',
-              message: 'Select a feature for the commit:',
-              choices: features,
-            },
-          ]);
-        }
-
-        console.log(argv)
-
         const result = await git.commit(argv.message);
         console.log(result);
         console.log('[master (root-commit) abc1234] ' + argv.message);
         console.log('1 file changed, 1 insertion(+)');
-
-        // Update commit log
-        if (features.length) {
-          const commitLog = readCommitLog();
-          if (!commitLog[feature]) {
-            commitLog[feature] = [];
-          }
-          commitLog[feature].push(argv.message);
-          writeCommitLog(commitLog);
-        }
-
       } catch (error) {
         console.error(error.message);
       }
@@ -185,9 +160,17 @@ const main = async () => {
         console.log('Push successful');
 
         // Copy commit log to push log with selected feature
-        const commitLog = readCommitLog();
+        // const commitLog = readCommitLog();
         const commitLogPathPush = path.join(tempDir, 'commit-log-push.json');
-        const pushLog = { [feature]: commitLog[feature] || [] };
+        if (features.length) {
+          let commitLog = readCommitLog();
+          if (!commitLog[feature]) {
+            commitLog[feature] = [result.update.hash.to];
+          } else {
+            commitLog[feature].push(result.update.hash.to)
+          }
+          writeCommitLog(commitLog);
+        }
         fs.writeFileSync(commitLogPathPush, JSON.stringify(pushLog, null, 2), 'utf8');
       } catch (error) {
         console.error(error.message);
