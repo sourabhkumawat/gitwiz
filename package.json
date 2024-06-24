@@ -1,6 +1,6 @@
 {
   "name": "@authnlabs/gitwiz",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A CLI wrapper for Git commands using simple-git",
   "main": "bin/git-cli.js",
   "bin": {
