@@ -70,25 +70,17 @@ const createPullRequest = async (repoOwner, repoName, headBranch, baseBranch, ti
 const resolveCherryPickConflicts = async (git, commit) => {
   const inquirer = (await import('inquirer')).default;
   while (true) {
-    try {
-      await git.add(['.']);
-      await git.commit(`Resolved conflict for ${commit}`);
-      break;
-    } catch (error) {
-      if (error.message.includes('nothing to commit')) {
-        break;
-      }
-      console.log(`Conflict detected. Please resolve the conflict, then stage the changes and continue.`);
-      await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'continue',
-          message: 'Press Enter to continue after resolving the conflict:',
-        },
-      ]);
-    }
+    await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'continue',
+        message: 'Press Enter to continue after resolving the conflict:',
+      },
+    ]);
+    break
   }
-};
+}
+
 
 const main = async () => {
   const inquirer = (await import('inquirer')).default;
