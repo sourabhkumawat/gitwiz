@@ -279,6 +279,13 @@ const main = async () => {
         console.error(error.message);
       }
     })
+    .command('pwd', 'Remove a feature', async () => {
+      try {
+        console.log(tempDir);
+      } catch (error) {
+        console.error(error.message);
+      }
+    })
     .command('release', 'Create a release branch', async () => {
       try {
         const features = readFeatures();
