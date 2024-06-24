@@ -304,6 +304,7 @@ const main = async () => {
           try {
             await git.cherryPick(commit);
           } catch (error) {
+            console.log(error)
             console.log(`Conflict detected while cherry-picking commit: ${commit}`);
             await resolveCherryPickConflicts(git, commit);
           }
