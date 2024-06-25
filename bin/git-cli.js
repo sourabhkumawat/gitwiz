@@ -306,6 +306,52 @@ const main = async () => {
         console.error(error.message);
       }
     })
+    .command('post-push', 'Post-push operations', async () => {
+      try {
+        const features = readFeatures();
+        const { featureChoice } = await inquirer.prompt([
+          {
+            type: 'list',
+            name: 'featureChoice',
+            message: 'Select a feature to update commit log or add a new one:',
+            choices: [...features, 'Add a new feature', 'Skip'],
+          },
+        ]);
+
+        let feature;
+        if (featureChoice === 'Add a new feature') {
+          const { newFeature } = await inquirer.prompt([
+            {
+              type: 'input',
+              name: 'newFeature',
+              message: 'Enter the new feature name:',
+            },
+          ]);
+          feature = newFeature;
+          features.push(feature);
+          writeFeatures(features);
+        } else if (featureChoice === 'Skip') {
+          console.log('Skipping commit log update.');
+          return;
+        } else {
+          feature = featureChoice;
+        }
+
+        const log = await git.log();
+        const latestCommitHash = log.latest.hash;
+
+        const commitLog = readCommitLog();
+        if (!commitLog[feature]) {
+          commitLog[feature] = [];
+        }
+        commitLog[feature].push(latestCommitHash);
+        writeCommitLog(commitLog);
+
+        console.log(`Commit log updated with latest commit hash for feature "${feature}".`);
+      } catch (error) {
+        console.error(error.message);
+      }
+    })
     .help()
     .argv;
 };
